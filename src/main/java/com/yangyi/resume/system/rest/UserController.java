@@ -1,6 +1,6 @@
 package com.yangyi.resume.system.rest;
 
-//import me.zhengjie.common.aop.log.Log;
+import com.yangyi.resume.common.aop.log.Log;
 
 import com.yangyi.resume.common.exception.BadRequestException;
 //import com.yangyi.resume.common.utils.ElAdminConstant;
@@ -53,13 +53,14 @@ public class UserController {
         return new ResponseEntity(userService.findById(id), HttpStatus.OK);
     }
 
+    @Log(description = "查询用户")
     @GetMapping(value = "/users")
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_SELECT')")
     public ResponseEntity getUsers(UserDTO userDTO, Pageable pageable) {
         return new ResponseEntity(userQueryService.queryAll(userDTO, pageable), HttpStatus.OK);
     }
 
-    //    @Log(description = "新增用户")
+    @Log(description = "新增用户")
     @PostMapping(value = "/users")
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_CREATE')")
     public ResponseEntity create(@Validated @RequestBody User resources) {
@@ -69,7 +70,7 @@ public class UserController {
         return new ResponseEntity(userService.create(resources), HttpStatus.CREATED);
     }
 
-    //    @Log(description = "修改用户")
+    @Log(description = "修改用户")
     @PutMapping(value = "/users")
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_EDIT')")
     public ResponseEntity update(@Validated @RequestBody User resources) {
@@ -80,7 +81,7 @@ public class UserController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    //    @Log(description = "删除用户")
+    @Log(description = "删除用户")
     @DeleteMapping(value = "/users/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_DELETE')")
     public ResponseEntity delete(@PathVariable Long id) {

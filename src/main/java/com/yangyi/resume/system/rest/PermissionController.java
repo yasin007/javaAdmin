@@ -1,6 +1,6 @@
 package com.yangyi.resume.system.rest;
 
-//import com.yangyi.resume.common.aop.log.Log;
+import com.yangyi.resume.common.aop.log.Log;
 import com.yangyi.resume.common.exception.BadRequestException;
 import com.yangyi.resume.system.domain.Permission;
 import com.yangyi.resume.system.service.PermissionService;
@@ -48,7 +48,7 @@ public class PermissionController {
         return new ResponseEntity(permissionService.getPermissionTree(permissionService.findByPid(0L)), HttpStatus.OK);
     }
 
-//    @Log(description = "查询权限")
+    @Log(description = "查询权限")
     @GetMapping(value = "/permissions")
     @PreAuthorize("hasAnyRole('ADMIN','PERMISSION_ALL','PERMISSION_SELECT')")
     public ResponseEntity getPermissions(@RequestParam(required = false) String name) {
@@ -56,7 +56,7 @@ public class PermissionController {
         return new ResponseEntity(permissionService.buildTree(permissionDTOS), HttpStatus.OK);
     }
 
-//    @Log(description = "新增权限")
+    @Log(description = "新增权限")
     @PostMapping(value = "/permissions")
     @PreAuthorize("hasAnyRole('ADMIN','PERMISSION_ALL','PERMISSION_CREATE')")
     public ResponseEntity create(@Validated @RequestBody Permission resources) {
@@ -66,7 +66,7 @@ public class PermissionController {
         return new ResponseEntity(permissionService.create(resources), HttpStatus.CREATED);
     }
 
-//    @Log(description = "修改权限")
+    @Log(description = "修改权限")
     @PutMapping(value = "/permissions")
     @PreAuthorize("hasAnyRole('ADMIN','PERMISSION_ALL','PERMISSION_EDIT')")
     public ResponseEntity update(@Validated @RequestBody Permission resources) {
@@ -77,7 +77,7 @@ public class PermissionController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-//    @Log(description = "删除权限")
+    @Log(description = "删除权限")
     @DeleteMapping(value = "/permissions/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','PERMISSION_ALL','PERMISSION_DELETE')")
     public ResponseEntity delete(@PathVariable Long id) {
