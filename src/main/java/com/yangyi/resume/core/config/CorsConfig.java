@@ -9,8 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * 跨域请求
  *
- * @author jie
- * @date 2018-11-30
+ * @author yangyi
  */
 @Configuration
 @EnableWebMvc

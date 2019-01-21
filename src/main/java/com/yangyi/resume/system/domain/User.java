@@ -15,8 +15,9 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * @author jie
- * @date 2018-11-22
+ * 用户信息表
+ *
+ * @author yangyi
  */
 @Entity
 @Getter
@@ -24,8 +25,8 @@ import java.util.Set;
 @Table(name = "user")
 public class User implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id// 标识该属性为主键
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// 主键的生成策略
     private Long id;
 
     @NotBlank

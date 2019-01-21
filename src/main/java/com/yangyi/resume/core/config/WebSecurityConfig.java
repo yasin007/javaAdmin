@@ -1,6 +1,5 @@
 package com.yangyi.resume.core.config;
 
-
 import com.yangyi.resume.core.security.JwtAuthenticationEntryPoint;
 import com.yangyi.resume.core.security.JwtAuthorizationTokenFilter;
 import com.yangyi.resume.core.service.JwtUserDetailsService;
@@ -21,6 +20,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * jwt认证配置
+ *
+ * @author yangyi
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

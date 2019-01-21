@@ -9,8 +9,6 @@ import com.yangyi.resume.system.domain.User;
 import com.yangyi.resume.system.repository.PermissionRepository;
 import com.yangyi.resume.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,15 +17,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author jie
- * @date 2018-11-22
+ * token实现类
  */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -39,6 +35,12 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private PermissionRepository permissionRepository;
 
+    /**
+     * 重写实现SpringSecurity内的UserDetailsService接口来完成自定义查询用户的逻辑
+     *
+     * @param username
+     * @return
+     */
     @Override
     public UserDetails loadUserByUsername(String username) {
 
@@ -56,6 +58,12 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
     }
 
+    /**
+     * 创建SpringSecurity user模型
+     *
+     * @param user
+     * @return
+     */
     public UserDetails create(User user) {
         return new JwtUser(
                 user.getId(),
@@ -70,6 +78,13 @@ public class JwtUserDetailsService implements UserDetailsService {
         );
     }
 
+    /**
+     * 创建roles
+     *
+     * @param roles
+     * @param permissionRepository
+     * @return
+     */
     private static List<GrantedAuthority> mapToGrantedAuthorities(Set<Role> roles, PermissionRepository permissionRepository) {
 
         Set<Permission> permissions = new HashSet<>();

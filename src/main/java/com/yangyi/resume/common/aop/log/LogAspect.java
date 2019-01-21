@@ -42,7 +42,7 @@ public class LogAspect {
      * @param joinPoint join point for advice
      */
     @Around("logPointcut()")
-    public Object logAround(ProceedingJoinPoint joinPoint){
+    public Object logAround(ProceedingJoinPoint joinPoint) {
         Object result = null;
         currentTime = System.currentTimeMillis();
         try {
@@ -50,7 +50,7 @@ public class LogAspect {
         } catch (Throwable e) {
             throw new BadRequestException(e.getMessage());
         }
-        Logging logging = new Logging("INFO",System.currentTimeMillis() - currentTime);
+        Logging logging = new Logging("INFO", System.currentTimeMillis() - currentTime);
         loggingService.save(joinPoint, logging);
         return result;
     }
@@ -59,12 +59,12 @@ public class LogAspect {
      * 配置异常通知
      *
      * @param joinPoint join point for advice
-     * @param e exception
+     * @param e         exception
      */
     @AfterThrowing(pointcut = "logPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        Logging logging = new Logging("ERROR",System.currentTimeMillis() - currentTime);
+        Logging logging = new Logging("ERROR", System.currentTimeMillis() - currentTime);
         logging.setExceptionDetail(ThrowableUtil.getStackTrace(e));
-        loggingService.save((ProceedingJoinPoint)joinPoint, logging);
+        loggingService.save((ProceedingJoinPoint) joinPoint, logging);
     }
 }

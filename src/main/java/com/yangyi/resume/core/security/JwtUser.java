@@ -10,8 +10,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 /**
- * @author jie
- * @date 2018-11-23
+ * 实现SpringSecurity内的UserDetails数据模型
  */
 @Getter
 @AllArgsConstructor
@@ -29,6 +28,7 @@ public class JwtUser implements UserDetails {
 
     private final String email;
 
+    // 返回分配给用户的角色列表
     @JsonIgnore
     private final Collection<? extends GrantedAuthority> authorities;
 
@@ -39,30 +39,34 @@ public class JwtUser implements UserDetails {
     @JsonIgnore
     private final Date lastPasswordResetDate;
 
+    // 账户是否过期
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    // 账户是否未锁定
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    // 密码是否未过期
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    // 获取密码
     @JsonIgnore
     @Override
     public String getPassword() {
         return password;
     }
-
+    // 账户是否激活
     @Override
     public boolean isEnabled() {
         return enabled;

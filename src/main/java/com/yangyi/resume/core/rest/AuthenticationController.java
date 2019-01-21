@@ -12,17 +12,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
- * @author jie
- * @date 2018-11-23
  * 授权、根据token获取用户详细信息
+ *
+ * @author yangyi
  */
 @Slf4j
 @RestController
@@ -31,9 +31,6 @@ public class AuthenticationController {
 
     @Value("${jwt.header}")
     private String tokenHeader;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -50,14 +47,17 @@ public class AuthenticationController {
      */
     @Log(description = "用户登录")
     @PostMapping(value = "${jwt.auth.path}")
-    public ResponseEntity<?> authenticationLogin(@RequestBody AuthorizationUser authorizationUser) {
+    public ResponseEntity<?> authenticationLogin(@Valid @RequestBody AuthorizationUser authorizationUser) {
 
+        // 根据用户名获取用户信息
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authorizationUser.getUsername());
 
+        // 查询密码是否正确
         if (!userDetails.getPassword().equals(EncryptUtils.encryptPassword(authorizationUser.getPassword()))) {
             throw new AccountExpiredException("密码错误");
         }
 
+        // 查询账号是否停用
         if (!userDetails.isEnabled()) {
             throw new AccountExpiredException("账号已停用，请联系管理员");
         }
@@ -77,6 +77,7 @@ public class AuthenticationController {
      */
     @GetMapping(value = "${jwt.auth.account}")
     public ResponseEntity getUserInfo(HttpServletRequest request) {
+        // 根据用户名获取用户信息
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(jwtTokenUtil.getUserName(request));
         return ResponseEntity.ok(jwtUser);
     }

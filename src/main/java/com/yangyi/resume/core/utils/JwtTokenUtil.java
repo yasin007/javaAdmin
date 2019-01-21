@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * token工具类
+ */
 @Component
 public class JwtTokenUtil implements Serializable {
 
@@ -120,6 +123,12 @@ public class JwtTokenUtil implements Serializable {
         );
     }
 
+    /**
+     * 通过token获取用户名
+     *
+     * @param request
+     * @return
+     */
     public String getUserName(HttpServletRequest request) {
 
         String authToken = request.getHeader(tokenHeader);
